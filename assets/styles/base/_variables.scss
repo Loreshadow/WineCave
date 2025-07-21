@@ -1,0 +1,36 @@
+@use 'font';
+
+// Font
+$font-primary: 'Source Sans 3', sans-serif;
+$font-heading-weight: 700;
+$font-body-weight: 400;
+$font-size-base: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 28px;
+$font-size-xxl: 36px;
+
+// Couleurs principales
+$primary-color: #3E0018;
+$secondary-color: #88002D;
+$accent-color: #885C7E;
+$background-light: #c7a2b8;
+$white: #ffffff;
+$black: #000000;
+
+// Couleurs de texte et fond
+$text-color: #333333;
+$text-light: #666666;
+$color-background: #ffffff;
+$color-primary: $primary-color;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 32px;
+$spacing-xl: 4rem;
+
+// Breakpoints
+$mobile: 768px;
+$tablet: 992px;
+$desktop: 1200px;

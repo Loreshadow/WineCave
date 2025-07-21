@@ -1,0 +1,22 @@
+//  ajoute des syles de base
+@use 'base/base';
+@use 'base/reset';
+@use 'base/variables';
+@use 'base/mixins';
+
+//   des composants
+@use 'components/buttons';
+
+//  des layout & components
+@use 'layout/header';
+@use 'layout/footer';
+
+// style des pages
+@use 'pages/home';
+@use 'pages/auth';
+@use 'pages/login';
+@use 'pages/register';
+
+
+
+

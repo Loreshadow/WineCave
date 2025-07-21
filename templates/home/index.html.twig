@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - My Cave{% endblock %}
+
+{% block body %}
+<div class="home-container">
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Gérez votre cave à vin virtuelle</h1>
+            <p class="hero-subtitle">
+                Organisez, retrouvez et dégustez vos plus belles bouteilles en quelques clics. 
+                MyCave vous permet de suivre votre stock, de découvrir vos vins par pays ou millésime, 
+                et de garder toujours un œil sur votre cave.
+            </p>
+            {% if not app.user %}
+                <a class="btn btn-primary" href="{{ path('register') }}">Commencer maintenant</a>
+            {% else %}
+                <a class="btn btn-primary" href="#">Accéder à ma cave</a>
+            {% endif %}
+        </div>
+        <div class="hero-bottles">
+            <img src="{{ asset('img/domaine_serene.png') }}" alt="Bouteille 1" class="bottle-img">
+            <img src="{{ asset('img/bouscat.png') }}" alt="Bouteille 2" class="bottle-img">
+            <img src="{{ asset('img/lurton-pinot-gris.png') }}" alt="Bouteille 3" class="bottle-img">
+        </div>
+    </div>
+
+    <div class="welcome-section">
+        <div class="welcome-content">
+            <h2 class="welcome-title">Bienvenue sur MyCave !</h2>
+            <p class="welcome-text">
+                Bienvenue sur MyCave ! Nous sommes heureux de vous accueillir parmi notre communauté de passionnés. 
+                Prenez plaisir à explorer, organiser et enrichir votre collection. Que chaque bouteille raconte une belle histoire... Santé !
+            </p>
+        </div>
+        <div class="welcome-bottles">
+            <img src="{{ asset('img/morizottes.png') }}" alt="Vin 1" class="wine-img">
+            <img src="{{ asset('img/rex_hill.png') }}" alt="Vin 2" class="wine-img">
+            <img src="{{ asset('img/saint_cosme.png') }}" alt="Vin 3" class="wine-img">
+            <img src="{{ asset('img/block_nine.png') }}" alt="Vin 4" class="wine-img">
+        </div>
+    </div>
+</div>
+
+{% endblock %}

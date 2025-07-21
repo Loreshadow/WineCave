@@ -1,0 +1,20 @@
+// _reset.scss
+@use 'variables' as v;
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: v.$font-primary;
+  background-color: v.$color-background;
+  color: v.$text-color;
+}

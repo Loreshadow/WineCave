@@ -1,0 +1,39 @@
+@use 'variables' as v;
+
+body {
+  font-family: v.$font-primary;
+  font-size: v.$font-size-base;
+  font-weight: v.$font-body-weight;
+  color: v.$text-color;
+  background-color: v.$color-background;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: v.$font-primary;
+  font-weight: v.$font-heading-weight;
+  color: v.$color-primary;
+  margin-bottom: v.$spacing-sm;
+}
+
+p {
+  line-height: 1.6;
+  margin-bottom: v.$spacing-sm;
+}
+
+a {
+  color: v.$primary-color;
+  text-decoration: none;
+
+  &:hover {
+    color: v.$secondary-color;
+  }
+}
+
+// Utilitaires
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 v.$spacing-lg;
+}
