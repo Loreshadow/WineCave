@@ -1,0 +1,154 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+<style>
+.admin-public-container {
+    max-width: 950px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 2rem 1.5rem 2.5rem 1.5rem;
+}
+.admin-public-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 2rem;
+    display: block;
+    width: 100%;
+    text-align: left;
+    letter-spacing: 0.01em;
+}
+.admin-public-grid {
+    display: grid;
+    grid-template-columns: 2fr 3fr 2fr 2fr;
+    gap: 0;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+}
+.admin-public-header, .admin-public-row {
+    display: contents;
+}
+.admin-public-cell, .admin-public-header-cell {
+    padding: 1rem 0.7rem;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    background: #fff;
+}
+.admin-public-header-cell {
+    background: #f8f8f8;
+    font-weight: 700;
+    color: #722F37;
+    border-bottom: 2px solid #e0e0e0;
+    font-size: 1.08rem;
+}
+.admin-public-row:last-of-type .admin-public-cell {
+    border-bottom: none;
+}
+.admin-public-actions form {
+    display: inline;
+}
+.admin-public-actions .btn-success {
+    background: #38a169;
+    color: #fff;
+    margin-right: 0.5em;
+    padding: 0.3em 0.8em;
+    border-radius: 6px;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.admin-public-actions .btn-danger {
+    background: #dc3545;
+    color: #fff;
+    padding: 0.3em 0.8em;
+    border-radius: 6px;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+@media (max-width: 900px) {
+    .admin-public-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+@media (max-width: 700px) {
+    .admin-public-container {
+        padding: 1rem 0.2rem;
+    }
+    .admin-public-title {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+    .admin-public-grid {
+        grid-template-columns: 1fr;
+    }
+    .admin-public-header-cell, .admin-public-cell {
+        border-bottom: 1px solid #eee;
+        padding: 0.7rem 0.5rem;
+        font-size: 0.98rem;
+    }
+    .admin-public-header {
+        display: none;
+    }
+    .admin-public-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        background: #fff;
+        margin-bottom: 1.2em;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        padding: 0.5em 0.2em;
+    }
+    .admin-public-cell[data-label]:before {
+        content: attr(data-label) ": ";
+        font-weight: 700;
+        color: #722F37;
+        margin-right: 0.5em;
+    }
+}
+</style>
+
+<div class="admin-public-container">
+    <span class="admin-public-title">Bouteilles en attente de publication</span>
+    <div class="admin-public-grid">
+        <div class="admin-public-header">
+            <div class="admin-public-header-cell">Nom</div>
+            <div class="admin-public-header-cell">Propriétaire</div>
+            <div class="admin-public-header-cell">Région</div>
+            <div class="admin-public-header-cell">Actions</div>
+        </div>
+        {% for bouteille in bouteilles %}
+            <div class="admin-public-row">
+                <div class="admin-public-cell" data-label="Nom">{{ bouteille.name }}</div>
+                <div class="admin-public-cell" data-label="Propriétaire">{{ bouteille.user ? bouteille.user.email : 'N/A' }}</div>
+                <div class="admin-public-cell" data-label="Région">{{ bouteille.region ? bouteille.region.name : '' }}</div>
+                <div class="admin-public-cell admin-public-actions" data-label="Actions">
+                    <form method="post" action="{{ path('admin_accept_public', {id: bouteille.id}) }}" style="display:inline;">
+                        <input type="hidden" name="_token" value="{{ csrf_token('accept' ~ bouteille.id) }}">
+                        <button class="btn btn-success btn-sm" type="submit">Accepter</button>
+                    </form>
+                    <form method="post" action="{{ path('admin_refuse_public', {id: bouteille.id}) }}" style="display:inline;">
+                        <input type="hidden" name="_token" value="{{ csrf_token('refuse' ~ bouteille.id) }}">
+                        <button class="btn btn-danger btn-sm" type="submit">Refuser</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="admin-public-row">
+                <div class="admin-public-cell" style="grid-column: 1 / -1; text-align:center;">
+                    Aucune demande en attente.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une bouteille - My Cave{% endblock %}
+
+{% block body %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h4><i class="fas fa-wine-bottle"></i> Ajouter une bouteille</h4>
+        </div>
+        <div class="auth-body">
+            {{ form_start(form, {'attr': {'class': 'auth-form', 'enctype': 'multipart/form-data'}}) }}
+                <div class="form-group">
+                    {{ form_label(form.name) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.name) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.ancien) }}
+                    {{ form_widget(form.ancien, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.ancien) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.region) }}
+                    {{ form_widget(form.region, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.region) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.color) }}
+                    {{ form_widget(form.color, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.color) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.producteur) }}
+                    {{ form_widget(form.producteur, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.producteur) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.purchasePrice) }}
+                    {{ form_widget(form.purchasePrice, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.purchasePrice) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.degres) }}
+                    {{ form_widget(form.degres, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.degres) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.Gout) }}
+                    {{ form_widget(form.Gout, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.Gout) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.image) }}
+                    {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.image) }}
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-plus"></i> Ajouter la bouteille
+                </button>
+            {{ form_end(form) }}
+            <div class="auth-footer">
+                <p><a href="{{ path('cave_index') }}"><i class="fas fa-arrow-left"></i> Retour à ma cave</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

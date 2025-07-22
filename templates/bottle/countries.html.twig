@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title %}Vins par pays{% endblock %}
+{% block body %}
+<div class="countries-container">
+    <h1>Découvrez les vins par pays</h1>
+    <div class="countries-grid">
+        {% for pays in pays %}
+            <a href="{{ path('public_by_country', {id: pays.id}) }}" class="country-card">
+                <span class="country-emoji">
+                    {% if pays.name == 'France' %}
+                        🇫🇷
+                    {% elseif pays.name == 'Italie' %}
+                        🇮🇹
+                    {% elseif pays.name == 'Espagne' %}
+                        🇪🇸
+                    {% elseif pays.name == 'Allemagne' %}
+                        🇩🇪
+                    {% else %}
+                        
+                    {% endif %}
+                </span>
+                <span class="country-name">{{ pays.name }}</span>
+            </a>
+        {% else %}
+            <div class="no-country">Aucun pays trouvé.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -31,16 +31,21 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button">Vins</a>
                             <div class="dropdown-menu">
-                                <a href="#" class="dropdown-item">Découvrez vos vins par pays</a>
-                                <a href="#" class="dropdown-item">Consulter la liste de tout vos vins</a>
+                                <a href="{{ path('public_countries') }}" class="dropdown-item">Découvrez les vins par pays</a>
+                                <a href="{{ path('public_wines') }}" class="dropdown-item">Consulter la liste de tous les vins</a>
                             </div>
                         </li>
                         {% if app.user %}
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Ma cave</a>
+                                <a class="nav-link" href="{{ path('cave_index') }}">Ma cave</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Ajouter un vin</a>
+                                <a class="nav-link" href="{{ path('bouteille_new') }}">Ajouter un vin</a>
+                            </li>
+                        {% endif %}
+                        {% if app.user and is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin') }}">Admin</a>
                             </li>
                         {% endif %}
                     </ul>

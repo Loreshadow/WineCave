@@ -1,0 +1,516 @@
+@use '../base/variables' as *;
+
+.cave-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, $background-light 0%, rgba($primary-color, 0.05) 100%);
+    padding: $spacing-xl 0;
+
+    .cave-header {
+        background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+        color: $white;
+        padding: $spacing-xl 0;
+        margin-bottom: $spacing-xl;
+        position: relative;
+        overflow: hidden;
+
+        // Effet de fond subtil
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse 400px 200px at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%),
+                radial-gradient(ellipse 300px 150px at 80% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+            animation: gentleFloat 15s ease-in-out infinite;
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(20px) translateY(-10px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 $spacing-lg;
+            position: relative;
+            z-index: 1;
+
+            .cave-title {
+                font-size: 42px;
+                font-weight: 700;
+                margin-bottom: $spacing-md;
+                display: flex;
+                align-items: center;
+                gap: $spacing-md;
+
+                i {
+                    font-size: 48px;
+                    color: rgba(255, 255, 255, 0.9);
+                }
+            }
+
+            .cave-subtitle {
+                font-size: 18px;
+                opacity: 0.9;
+                margin-bottom: $spacing-lg;
+            }
+
+            .cave-stats {
+                display: flex;
+                gap: $spacing-lg;
+                flex-wrap: wrap;
+
+                .stat-item {
+                    background: rgba(255, 255, 255, 0.1);
+                    padding: $spacing-md $spacing-lg;
+                    border-radius: 12px;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+
+                    .stat-number {
+                        font-size: 24px;
+                        font-weight: 700;
+                        margin-bottom: $spacing-xs;
+                    }
+
+                    .stat-label {
+                        font-size: 14px;
+                        opacity: 0.8;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                    }
+                }
+            }
+        }
+    }
+
+    .cave-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 $spacing-lg;
+
+        .cave-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: $spacing-xl;
+            flex-wrap: wrap;
+            gap: $spacing-md;
+
+            .search-bar {
+                flex: 1;
+                max-width: 400px;
+                position: relative;
+
+                input {
+                    width: 100%;
+                    padding: $spacing-md $spacing-lg;
+                    padding-left: 50px;
+                    border: 2px solid #e0e0e0;
+                    border-radius: 25px;
+                    font-size: $font-size-base;
+                    transition: all 0.3s ease;
+                    background: $white;
+
+                    &:focus {
+                        outline: none;
+                        border-color: $primary-color;
+                        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+                    }
+                }
+
+                i {
+                    position: absolute;
+                    left: $spacing-md;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: $text-light;
+                    font-size: 18px;
+                }
+            }
+
+            .filter-buttons {
+                display: flex;
+                gap: $spacing-sm;
+                flex-wrap: wrap;
+
+                .filter-btn {
+                    padding: $spacing-sm $spacing-md;
+                    border: 2px solid $primary-color;
+                    background: transparent;
+                    color: $primary-color;
+                    border-radius: 20px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+
+                    &:hover,
+                    &.active {
+                        background: $primary-color;
+                        color: $white;
+                        transform: translateY(-2px);
+                    }
+                }
+            }
+
+            .add-wine-btn {
+                background: linear-gradient(135deg, $accent-color 0%, $secondary-color 100%);
+                color: $white;
+                padding: $spacing-md $spacing-lg;
+                border: none;
+                border-radius: 25px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: $spacing-sm;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba($accent-color, 0.3);
+                }
+
+                i {
+                    font-size: 18px;
+                }
+            }
+        }
+
+        .wine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: $spacing-lg;
+            margin-bottom: $spacing-xl;
+
+            .wine-card {
+                background: $white;
+                border-radius: 16px;
+                padding: $spacing-lg;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 4px;
+                    background: linear-gradient(90deg, $primary-color 0%, $secondary-color 100%);
+                }
+
+                &:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                }
+
+                .wine-image {
+                    width: 80px;
+                    height: 120px;
+                    object-fit: cover;
+                    border-radius: 8px;
+                    margin-bottom: $spacing-md;
+                    float: left;
+                    margin-right: $spacing-md;
+                }
+
+                .wine-info {
+                    .wine-name {
+                        font-size: 18px;
+                        font-weight: 700;
+                        color: $text-color;
+                        margin-bottom: $spacing-xs;
+                    }
+
+                    .wine-details {
+                        font-size: 14px;
+                        color: $text-light;
+                        margin-bottom: $spacing-sm;
+
+                        .detail-item {
+                            margin-bottom: $spacing-xs;
+
+                            i {
+                                width: 16px;
+                                margin-right: $spacing-xs;
+                                color: $primary-color;
+                            }
+                        }
+                    }
+
+                    .wine-description {
+                        font-size: 14px;
+                        color: $text-light;
+                        line-height: 1.5;
+                        margin-bottom: $spacing-md;
+                        clear: both;
+                    }
+                }
+
+                .wine-actions {
+                    display: flex;
+                    gap: $spacing-sm;
+                    justify-content: flex-end;
+                    clear: both;
+
+                    .action-btn {
+                        padding: $spacing-xs $spacing-sm;
+                        border: none;
+                        border-radius: 6px;
+                        font-size: 12px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+
+                        &.edit-btn {
+                            background: $accent-color;
+                            color: $white;
+
+                            &:hover {
+                                background: darken($accent-color, 10%);
+                            }
+                        }
+
+                        &.delete-btn {
+                            background: #dc3545;
+                            color: $white;
+
+                            &:hover {
+                                background: darken(#dc3545, 10%);
+                            }
+                        }
+
+                        &.view-btn {
+                            background: $primary-color;
+                            color: $white;
+
+                            &:hover {
+                                background: darken($primary-color, 10%);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .empty-cave {
+            text-align: center;
+            padding: $spacing-xxl;
+            background: $white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+            i {
+                font-size: 64px;
+                color: $text-light;
+                margin-bottom: $spacing-lg;
+            }
+
+            h3 {
+                font-size: 24px;
+                color: $text-color;
+                margin-bottom: $spacing-md;
+            }
+
+            p {
+                color: $text-light;
+                margin-bottom: $spacing-lg;
+                font-size: 16px;
+            }
+
+            .add-first-wine-btn {
+                background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+                color: $white;
+                padding: $spacing-md $spacing-xl;
+                border: none;
+                border-radius: 25px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba($primary-color, 0.3);
+                }
+            }
+        }
+    }
+}
+.wine-detail-card {
+    max-width: 500px;
+    width: 95%;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 2.5rem 2rem 2rem 2rem;
+    position: relative;
+    text-align: left;
+}
+.wine-detail-card .close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #C73E1D;
+    cursor: pointer;
+}
+.wine-detail-card h2 {
+    margin-top: 0;
+    color: #722F37;
+}
+.wine-detail-card .wine-detail-row {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 1.08rem;
+}
+.wine-detail-card .wine-detail-img {
+    width: 100%;
+    max-width: 220px;
+    border-radius: 12px;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: block;
+}
+.wine-detail-card .wine-description {
+    margin-top: 1.2rem;
+    font-style: italic;
+    color: #555;
+}
+
+.action-btn.public-btn {
+    background: #9df4b6;
+    color: #218838;
+    border: 1px solid #b7e4c7;
+    border-radius: 5px;
+    padding: 0.35rem 0.8rem;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    box-shadow: none;
+
+    i {
+        font-size: 13px;
+    }
+
+    &:hover {
+        background: #b7e4c7;
+        color: #155724;
+        border-color: #95d5b2;
+    }
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.3em 0.8em;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 0.5em;
+    vertical-align: middle;
+}
+
+.badge-warning {
+    background: #ffe082;
+    color: #a67c00;
+}
+
+.badge-success {
+    background: #c8e6c9;
+    color: #256029;
+}
+
+// Responsive
+@media (max-width: $tablet) {
+    .cave-container {
+        .cave-header {
+            .container {
+                .cave-title {
+                    font-size: 32px;
+                    
+                    i {
+                        font-size: 36px;
+                    }
+                }
+
+                .cave-stats {
+                    .stat-item {
+                        flex: 1;
+                        min-width: 150px;
+                    }
+                }
+            }
+        }
+
+        .cave-content {
+            .cave-actions {
+                flex-direction: column;
+                align-items: stretch;
+
+                .search-bar {
+                    max-width: 100%;
+                }
+
+                .filter-buttons {
+                    justify-content: center;
+                }
+            }
+
+            .wine-grid {
+                grid-template-columns: 1fr;
+                gap: $spacing-md;
+            }
+        }
+    }
+}
+
+@media (max-width: $mobile) {
+    .cave-container {
+        padding: $spacing-lg 0;
+
+        .cave-header {
+            padding: $spacing-lg 0;
+            margin-bottom: $spacing-lg;
+
+            .container {
+                padding: 0 $spacing-md;
+
+                .cave-title {
+                    font-size: 28px;
+                    flex-direction: column;
+                    text-align: center;
+                    gap: $spacing-sm;
+                }
+
+                .cave-stats {
+                    justify-content: center;
+
+                    .stat-item {
+                        text-align: center;
+                        min-width: 120px;
+                    }
+                }
+            }
+        }
+
+        .cave-content {
+            padding: 0 $spacing-md;
+        }
+    }
+}

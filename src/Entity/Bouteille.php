@@ -82,6 +82,17 @@ class Bouteille
     #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'bottle')]
     private Collection $notes;
 
+    #[ORM\ManyToOne(inversedBy: 'bouteilles')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\Column]
+    private ?int $public = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bouteilles')]
+    #[ORM\JoinColumn(nullable: True)]
+    private ?Pays $pays = null;
+
     public function __construct()
     {
         $this->historiqueStocks = new ArrayCollection();
@@ -379,6 +390,42 @@ class Bouteille
                 $note->setBottle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPublic(): ?int
+    {
+        return $this->public;
+    }
+
+    public function setPublic(int $public): static
+    {
+        $this->public = $public;
+
+        return $this;
+    }
+
+    public function getPays(): ?Pays
+    {
+        return $this->pays;
+    }
+
+    public function setPays(?Pays $pays): static
+    {
+        $this->pays = $pays;
 
         return $this;
     }

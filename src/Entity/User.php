@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -51,10 +53,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updatedAt = null;
 
+    /**
+     * @var Collection<int, Bouteille>
+     */
+    #[ORM\OneToMany(targetEntity: Bouteille::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $bouteilles;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->bouteilles = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -211,5 +220,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // @deprecated, to be removed when upgrading to Symfony 8
+    }
+
+    /**
+     * @return Collection<int, Bouteille>
+     */
+    public function getBouteilles(): Collection
+    {
+        return $this->bouteilles;
+    }
+
+    public function addBouteille(Bouteille $bouteille): static
+    {
+        if (!$this->bouteilles->contains($bouteille)) {
+            $this->bouteilles->add($bouteille);
+            $bouteille->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBouteille(Bouteille $bouteille): static
+    {
+        if ($this->bouteilles->removeElement($bouteille)) {
+            // set the owning side to null (unless already changed)
+            if ($bouteille->getUser() === $this) {
+                $bouteille->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

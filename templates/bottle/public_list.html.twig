@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vins publics - My Cave{% endblock %}
+
+{% block body %}
+<div class="cave-container">
+    <div class="cave-header">
+        <div class="container">
+            <h1 class="cave-title">
+                <i class="fas fa-globe"></i>
+                Tous les vins publics
+            </h1>
+            <p class="cave-subtitle">
+                Découvrez les bouteilles rendues publiques par la communauté.
+            </p>
+        </div>
+    </div>
+    <div class="cave-content">
+        {% if bouteilles|length > 0 %}
+            <div class="wine-grid">
+                {% for wine in bouteilles %}
+                    <div class="wine-card">
+                        {% if wine.image %}
+                            <img src="{{ asset('uploads/bouteilles/' ~ wine.image) }}" alt="{{ wine.name }}" class="wine-image">
+                        {% else %}
+                            <div class="wine-image" style="background: linear-gradient(135deg, #8B0000, #DC143C); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-wine-bottle" style="color: white; font-size: 24px;"></i>
+                            </div>
+                        {% endif %}
+                        <div class="wine-info">
+                            <h3 class="wine-name">{{ wine.name }}</h3>
+                            <div class="wine-details">
+                                {% if wine.region %}
+                                    <div class="detail-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        {{ wine.region.name }}
+                                    </div>
+                                {% endif %}
+                                {% if wine.ancien %}
+                                    <div class="detail-item">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        {{ wine.ancien }}
+                                    </div>
+                                {% endif %}
+                                {% if wine.color %}
+                                    <div class="detail-item">
+                                        <i class="fas fa-palette"></i>
+                                        {{ wine.color.name }}
+                                    </div>
+                                {% endif %}
+                                {% if wine.producteur %}
+                                    <div class="detail-item">
+                                        <i class="fas fa-industry"></i>
+                                        {{ wine.producteur.nom }}
+                                    </div>
+                                {% endif %}
+                                {% if wine.purchasePrice %}
+                                    <div class="detail-item">
+                                        <i class="fas fa-tag"></i>
+                                        {{ wine.purchasePrice }}€
+                                    </div>
+                                {% endif %}
+                                {% if wine.degres %}
+                                    <div class="detail-item">
+                                        <i class="fas fa-percentage"></i>
+                                        {{ wine.degres }}°
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% if wine.Gout %}
+                                <p class="wine-description">
+                                    {{ wine.Gout|length > 100 ? wine.Gout|slice(0, 100) ~ '...' : wine.Gout }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-cave">
+                <i class="fas fa-wine-bottle"></i>
+                <h3>Aucun vin public pour le moment</h3>
+                <p>Revenez plus tard ou partagez vos propres bouteilles !</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

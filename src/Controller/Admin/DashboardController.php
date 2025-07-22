@@ -2,40 +2,38 @@
 
 namespace App\Controller\Admin;
 
-use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Entity\Bouteille;
+use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
+    #[Route('/admin', name: 'admin_dashboard')]
     public function index(): Response
     {
-        return parent::index();
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // 1.1) If you have enabled the "pretty URLs" feature:
-        // return $this->redirectToRoute('admin_user_index');
-        //
-        // 1.2) Same example but using the "ugly URLs" that were used in previous EasyAdmin versions:
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirectToRoute('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-        // return $this->render('some/path/my-dashboard.html.twig');
+        return $this->render('admin/index.html.twig');
     }
+    
+        #[Route('/admin/public-requests', name: 'admin_public_requests')]
+        public function publicRequests(EntityManagerInterface $em): Response
+        {
+            $bouteilles = $em->getRepository(Bouteille::class)->findBy(['public' => 2]);
+            return $this->render('admin/public_request.html.twig', [
+                'bouteilles' => $bouteilles,
+            ]);
+        }
 
+
+        
+    
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -44,7 +42,31 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
+        
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToRoute('Demandes de publication', 'fa fa-globe', 'admin_public_requests');
+        yield MenuItem::linkToCrud('Bouteilles', 'fa fa-wine-bottle', Bouteille::class);
+        yield MenuItem::linkToRoute('Retour à l\'accueil', 'fa fa-arrow-left', 'app_home');
     }
+    #[Route('/admin/bouteille/{id}/accept', name: 'admin_accept_public', methods: ['POST'])]
+        public function acceptPublic(Request $request, Bouteille $bouteille, EntityManagerInterface $em): Response
+        {
+            if ($this->isCsrfTokenValid('accept'.$bouteille->getId(), $request->request->get('_token'))) {
+                $bouteille->setPublic(1);
+                $em->flush();
+                $this->addFlash('success', 'Bouteille rendue publique.');
+            }
+            return $this->redirectToRoute('admin_public_requests');
+        }
+
+        #[Route('/admin/bouteille/{id}/refuse', name: 'admin_refuse_public', methods: ['POST'])]
+        public function refusePublic(Request $request, Bouteille $bouteille, EntityManagerInterface $em): Response
+        {
+            if ($this->isCsrfTokenValid('refuse'.$bouteille->getId(), $request->request->get('_token'))) {
+                $bouteille->setPublic(0);
+                $em->flush();
+                $this->addFlash('danger', 'Demande refusée.');
+            }
+            return $this->redirectToRoute('admin_public_requests');
+        }
 }

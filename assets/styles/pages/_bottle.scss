@@ -1,0 +1,102 @@
+// Ajoute ceci dans ton SCSS
+
+.auth-form input,
+.auth-form select,
+.auth-form textarea {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #faf9f7;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.auth-form input:focus,
+.auth-form select:focus,
+.auth-form textarea:focus {
+  border-color: #C73E1D;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(199,62,29,0.08);
+}
+
+.auth-form label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #722F37;
+  display: block;
+}
+
+.auth-form .form-error,
+.auth-form .invalid-feedback {
+  color: #dc3545;
+  font-size: 0.95em;
+  margin-top: -0.7rem;
+  margin-bottom: 0.7rem;
+  display: block;
+}
+
+.auth-form input[type="file"] {
+  padding: 0.3rem 0;
+  background: none;
+  border: none;
+}
+
+.wine-list-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 2rem 1.5rem 2.5rem 1.5rem;
+}
+
+.wine-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.wine-card {
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 1rem 1.5rem;
+    min-width: 220px;
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.wine-card-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wine-year {
+    color: #b22222;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+}
+
+.wine-card-body {
+    font-size: 1rem;
+    color: #444;
+}
+
+.wine-gout, .wine-degres, .wine-price {
+    margin-bottom: 0.3rem;
+}
+
+.empty-cave {
+    text-align: center;
+    color: #888;
+    margin: 2rem 0;
+}
