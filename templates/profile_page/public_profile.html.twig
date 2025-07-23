@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil public de {{ user.username }}{% endblock %}
+
+{% block body %}
+<section class="public-profile-section">
+    <h2>
+        <i class="fas fa-user"></i> Profil public de {{ user.username }}
+    </h2>
+    <div class="public-profile-info">
+        <p><strong>Pseudo :</strong> {{ user.username }}</p>
+        <p><strong>Nom de la cave :</strong> {{ cave.name }}</p>
+        <p>
+            <strong>Visibilité de la cave :</strong>
+            {% if cave.visibility == 1 %}
+                <span class="badge badge-success"><i class="fas fa-globe"></i> Publique</span>
+            {% else %}
+                <span class="badge badge-danger"><i class="fas fa-lock"></i> Privée</span>
+            {% endif %}
+        </p>
+        <p>
+            <strong>Profil :</strong>
+            {% if user.privacy == 1 %}
+                <span class="badge badge-success"><i class="fas fa-globe"></i> Public</span>
+            {% else %}
+                <span class="badge badge-danger"><i class="fas fa-lock"></i> Privé</span>
+            {% endif %}
+        </p>
+    </div>
+
+    <h3>Bouteilles ajoutées sur le site par {{ user.username }} :</h3>
+    <div class="bouteilles-list">
+        {% set userBouteilles = user.bouteilles ?? [] %}
+        {% if userBouteilles|length > 0 %}
+            <ul>
+                {% for bouteille in userBouteilles %}
+                    <li>
+                        <strong>{{ bouteille.name }}</strong>
+                        {# Ajoute ici d'autres infos si tu veux, ex : année, pays, etc. #}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucune bouteille ajoutée sur le site par cet utilisateur.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

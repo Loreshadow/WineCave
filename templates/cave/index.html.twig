@@ -3,6 +3,12 @@
 {% block title %}Ma Cave - My Cave{% endblock %}
 
 {% block body %}
+<script>
+window.SymfonyCsrf = {};
+{% for wine in wines %}
+    window.SymfonyCsrf['delete{{ wine.id }}'] = '{{ csrf_token('delete' ~ wine.id) }}';
+{% endfor %}
+</script>
 <div class="cave-container">
     <div class="cave-header">
         <div class="container">
@@ -10,6 +16,20 @@
                 <i class="fas fa-wine-bottle"></i>
                 Ma Cave Personnelle
             </h1>
+            {% if cave.visibility == 1 %}
+                <div class="cave-visibility">
+                    <i class="fas fa-globe"></i> Publique
+                </div>
+            {% else %}
+                <div class="cave-visibility">
+                    <i class="fas fa-lock"></i> Privée
+                </div>
+            {% endif %}
+            {% if cave.user %}
+                <a href="{{ path('user_public_profile', {id: cave.user.id}) }}" class="btn btn-user-profile">
+                    <i class="fas fa-user"></i> Voir le profil public de {{ cave.user.username }}
+                </a>
+            {% endif %}
             <p class="cave-subtitle">
                 Gérez votre collection de vins avec passion et organisation
             </p>
@@ -151,13 +171,12 @@
                                 <a class="action-btn edit-btn" href="{{ path('bouteille_edit', {id: wine.id}) }}">
                                     <i class="fas fa-edit"></i> Modifier
                                 </a>
-                                    <button
-                                        class="action-btn delete-btn"
-                                        type="button"
-                                        onclick="confirmDelete({{ wine.id }}, '{{ wine.name|e('js') }}', {{ wine.public }})"
-                                    >
-                                        <i class="fas fa-trash"></i> Supprimer
-                                    </button>
+                                <button
+                                    class="action-btn delete-btn"
+                                    type="button"
+                                    onclick="confirmDelete({{ wine.id }}, '{{ wine.name|e('js') }}', {{ wine.public }})">
+                                    <i class="fas fa-trash"></i> Supprimer
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -179,8 +198,10 @@
     <div class="modal-content">
         <h4>Confirmer la suppression</h4>
         <p>Êtes-vous sûr de vouloir supprimer "<span id="wineName"></span>" de votre cave ?</p>
+        <p id="deleteModalMessage"></p>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeDeleteModal()">Annuler</button>
+            <button class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
         </div>
     </div>
 </div>

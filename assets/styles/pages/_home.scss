@@ -119,6 +119,132 @@
     }
 }
 
+.popular-section {
+    margin: 4rem 0 2rem 0;
+    padding: 3rem 0 2rem 0;
+    background: linear-gradient(120deg, #f7f2f7 0%, #fbe6ee 100%);
+    border-radius: 32px;
+    box-shadow: 0 8px 32px rgba(114,47,55,0.08);
+
+    .popular-title {
+        font-size: 2.4rem;
+        font-weight: 800;
+        color: #7a133e;
+        text-align: center;
+        margin-bottom: 2.5rem;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+        i {
+            color: #c73e1d;
+            font-size: 2.4rem;
+        }
+    }
+
+    .popular-wines {
+        display: flex;
+        gap: 2.8rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .popular-wine-card {
+        background: linear-gradient(120deg, #fff 60%, #fbe6ee 100%);
+        border-radius: 22px;
+        box-shadow: 0 4px 24px rgba(122,19,62,0.09);
+        padding: 2rem 1.3rem 1.5rem 1.3rem;
+        width: 260px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: box-shadow 0.2s, transform 0.2s;
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+            box-shadow: 0 12px 36px rgba(122,19,62,0.17);
+            transform: translateY(-6px) scale(1.04);
+        }
+
+        .popular-wine-img {
+            width: 100px;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 1.3rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(122,19,62,0.10);
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+            border: 2px solid #fbe6ee;
+        }
+
+        .popular-wine-info {
+            h3 {
+                font-size: 1.18rem;
+                font-weight: 700;
+                color: #7a133e;
+                margin-bottom: 0.7rem;
+                letter-spacing: 0.5px;
+            }
+            p {
+                font-size: 1rem;
+                color: #444;
+                margin-bottom: 1.1rem;
+                line-height: 1.5;
+            }
+            .btn-secondary {
+                background: linear-gradient(120deg, #8B0000 0%, #DC143C 100%);
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                padding: 0.6rem 1.2rem;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.2s, transform 0.2s;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                i {
+                    font-size: 16px;
+                }
+
+                &:hover {
+                    background: linear-gradient(120deg, #DC143C 0%, #8B0000 100%);
+                    transform: translateY(-2px) scale(1.05);
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+@media (max-width: 900px) {
+    .popular-section .popular-wines {
+        gap: 1.2rem;
+    }
+    .popular-section .popular-wine-card {
+        width: 180px;
+        padding: 1rem 0.7rem;
+    }
+    .popular-section .popular-wine-img {
+        width: 65px;
+        height: 90px;
+    }
+    .popular-section {
+        padding: 2rem 0 1rem 0;
+    }
+    .popular-section .popular-title {
+        font-size: 1.5rem;
+    }
+}
+
+
+
 // Responsive
 @media (max-width: $tablet) {
     .home-container {

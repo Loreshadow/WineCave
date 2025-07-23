@@ -19,27 +19,29 @@
         {% if caves|length > 0 %}
             <div class="wine-grid">
                 {% for cave in caves %}
-                    <div class="wine-card">
-                        <div class="wine-info">
-                            <h3 class="wine-name">
-                                <i class="fas fa-user"></i>
-                                {{ cave.user ? cave.user.getFullName() : 'Utilisateur inconnu' }}
-                            </h3>
-                            <div class="wine-details">
-                                <div class="detail-item">
-                                    <i class="fas fa-id-badge"></i>
-                                    {{ cave.name }}
+                    {% if cave.visibility == 1 %}
+                        <div class="wine-card">
+                            <div class="wine-info">
+                                <h3 class="wine-name">
+                                    <i class="fas fa-user"></i>
+                                    {{  cave.user ? cave.user.getUsername() : 'Utilisateur inconnu' }}
+                                </h3>
+                                <div class="wine-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-id-badge"></i>
+                                        {{ cave.name }}
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        Créée le {{ cave.createdAt ? cave.createdAt|date('d/m/Y') : 'N/A' }}
+                                    </div>
                                 </div>
-                                <div class="detail-item">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    Créée le {{ cave.createdAt ? cave.createdAt|date('d/m/Y') : 'N/A' }}
-                                </div>
+                                <a class="action-btn view-btn" href="{{ path('cave_show', {id: cave.id}) }}">
+                                    <i class="fas fa-eye"></i> Voir la cave
+                                </a>
                             </div>
-                            <a class="action-btn view-btn" href="{{ path('cave_show', {id: cave.id}) }}">
-                                <i class="fas fa-eye"></i> Voir la cave
-                            </a>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% else %}

@@ -22,8 +22,6 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Générer un username basé sur l'email
-            $user->setUsername($user->getEmail());
             
             // Encoder le mot de passe
             $user->setPassword(
@@ -32,23 +30,23 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            
+                    
+            $username = $user->getUsername();
+
             $cave = new Cave();
-            $cave->setName('Cave de ' . $user->getEmail()); 
+            $cave->setName('Cave de ' . $username);
             $cave->setVisibility(1);
             $cave->setCreatedAt(new \DateTime());
             $cave->setUser($user);
             $user->setCave($cave);
-            $entityManager->persist($cave);
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $user->setPrivacy(0);
             $user->setRoles(['ROLE_USER']);
 
+            $entityManager->persist($cave);
             $entityManager->persist($user);
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre compte a été créé avec succès !');
-
             return $this->redirectToRoute('login');
         }
 

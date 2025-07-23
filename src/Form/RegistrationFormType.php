@@ -43,6 +43,11 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('username', TextType::class, [
+                'label' => 'Pseudo',
+                'attr' => ['class' => 'form-control'],
+                'required' => true,
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'J\'accepte les conditions d\'utilisation',
                 'mapped' => false,

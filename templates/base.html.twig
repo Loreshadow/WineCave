@@ -5,7 +5,7 @@
         <title>{% block title %}My Cave{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🍷</text></svg>">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -35,13 +35,16 @@
                                 <a href="{{ path('public_wines') }}" class="dropdown-item">Consulter la liste de tous les vins</a>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ path('all_caves') }}" class="nav-link">Voir toutes les caves</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button">Cave</a>
+                            <div class="dropdown-menu">
+                                {% if app.user %}
+                                    <a href="{{ path('cave_index') }}" class="dropdown-item">Ma cave</a>
+                                {% endif %}
+                                <a href="{{ path('all_caves') }}" class="dropdown-item">Toutes les caves</a>
+                            </div>
                         </li>
                         {% if app.user %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('cave_index') }}">Ma cave</a>
-                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('bouteille_new') }}">Ajouter un vin</a>
                             </li>
@@ -57,6 +60,11 @@
                         {% if app.user %}
                             <li class="nav-item">
                                 <a class="nav-link logout-btn" href="{{ path('logout') }}">Se Déconnecter</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('profile') }}">
+                                    <i class="fas fa-user"></i> Profil
+                                </a>
                             </li>
                         {% else %}
                             <li class="nav-item">
@@ -120,5 +128,22 @@
                 });
             </script>
         {% endblock %}
-    </body>
-</html>
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <a class="navbar-brand" href="{{ path('app_home') }}">
+                        <img src="{{ asset('img/logo-white.png') }}" alt="Logo de My Cave">
+                    </a>
+                </div>
+                <nav class="footer-links">
+                    <a href="{{ path('app_home') }}">Accueil</a>
+                    <a href="{{ path('cave_index') }}">Ma cave</a>
+                    <a href="{{ path('all_caves') }}">Caves publiques</a>
+                    <a href="{{ path('bouteille_new') }}">Ajouter un vin</a>
+                </nav>
+                <div class="footer-social">
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="footer-

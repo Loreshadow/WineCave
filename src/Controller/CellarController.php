@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Cave;
+use App\Entity\User;
 use App\Entity\Bouteille;
 use App\Form\BouteilleType;
 use App\Entity\CaveBouteille;
@@ -55,6 +56,30 @@ class CellarController extends AbstractController
             'redWines' => $redWines,
             'whiteWines' => $whiteWines,
             'roseWines' => $roseWines,
+            'cave' => $cave,
+        ]);
+    }
+
+    #[Route('/user/{id}/public', name: 'user_public_profile')]
+    public function publicProfile(User $user, EntityManagerInterface $em): Response
+    {
+        // Vérifie la visibilité de la cave ou du profil
+        $cave = $user->getCave();
+        if (!$cave || $cave->getVisibility() != 1) {
+            throw $this->createNotFoundException('Profil non public.');
+        }
+
+        // Récupère les bouteilles publiques de l'utilisateur via la table de liaison
+        $caveBouteilles = $em->getRepository(CaveBouteille::class)->findBy(['cave' => $cave]);
+        $bouteilles = array_filter(
+            array_map(fn($cb) => $cb->getBouteille(), $caveBouteilles),
+            fn($b) => $b->getPublic() == 1
+        );
+
+        return $this->render('profile_page/public_profile.html.twig', [
+            'user' => $user,
+            'cave' => $cave,
+            'bouteilles' => $bouteilles,
         ]);
     }
 
@@ -62,9 +87,11 @@ class CellarController extends AbstractController
     public function allCaves(EntityManagerInterface $em): Response
     {
         $caves = $em->getRepository(\App\Entity\Cave::class)->findAll();
+        $user = $this->getUser();
 
         return $this->render('cave/all_caves.html.twig', [
             'caves' => $caves,
+            'user' => $user,
         ]);
     }
 

@@ -41,5 +41,29 @@
         </div>
     </div>
 </div>
-
+<section class="popular-section">
+    <h2 class="popular-title">
+        Les vins les plus populaires
+    </h2>
+    <div class="popular-wines">
+        {% for wine in popularWines %}
+            <div class="popular-wine-card">
+                <img src="{{ asset('uploads/images/' ~ wine.image) }}" alt="{{ wine.name }}" class="popular-wine-img">
+                <div class="popular-wine-info">
+                    <h3>{{ wine.name }}</h3>
+                    <p>
+                        {{ wine.region ? wine.region.name : 'Région inconnue' }}
+                        <br>
+                        {{ wine.color ? wine.color.name : 'Couleur inconnue' }}
+                    </p>
+                    <a href="{{ path('bouteille_show', {id: wine.id}) }}" class="btn btn-secondary">
+                        <i class="fas fa-eye"></i> Voir
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun vin populaire pour le moment.</p>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}

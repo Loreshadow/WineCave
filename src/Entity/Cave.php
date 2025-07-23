@@ -18,11 +18,13 @@ class Cave
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cellars')]
+    
+    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'cave')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE', nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $visibility = null;
+    #[ORM\Column(type: 'integer')]
+    private ?int $visibility = null;
 
     #[ORM\Column]
     private ?\DateTime $createdAt = null;
@@ -77,17 +79,15 @@ class Cave
         return $this;
     }
 
-    public function getVisibility(): ?string
+    public function getVisibility(): ?int
     {
         return $this->visibility;
     }
-
-    public function setVisibility(string $visibility): static
-    {
-        $this->visibility = $visibility;
-
-        return $this;
-    }
+public function setVisibility(int $visibility): static
+{
+    $this->visibility = $visibility;
+    return $this;
+}
 
     public function getCreatedAt(): ?\DateTime
     {

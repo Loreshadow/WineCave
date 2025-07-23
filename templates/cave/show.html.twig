@@ -13,6 +13,11 @@
             <p class="cave-subtitle">
                 Collection publique de cette cave.
             </p>
+            {% if cave.user and cave.user.privacy == 1 %}
+                <a href="{{ path('user_public_profile', {id: cave.user.id}) }}" class="btn btn-user-profile">
+                    <i class="fas fa-user"></i> Voir le profil public de {{ cave.user.username }}
+                </a>
+            {% endif %}
         </div>
     </div>
     <div class="cave-content">

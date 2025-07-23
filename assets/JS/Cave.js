@@ -36,15 +36,33 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
     });
 });
 
-// Fonction de confirmation de suppression
-function confirmDelete(wineId, wineName) {
+function confirmDelete(wineId, wineName, isPublic) {
     document.getElementById('wineName').textContent = wineName;
+    let message = '';
+    if (isPublic === 1) {
+        message = 'Ce vin est public. Il sera seulement retiré de votre cave.';
+    } else {
+        message = 'Ce vin est privé. Il sera supprimé définitivement.';
+    }
+    document.getElementById('deleteModalMessage').textContent = message;
+
+    // Ajoute la logique de suppression réelle ici (ex: soumission d'un formulaire caché)
     document.getElementById('confirmDeleteBtn').onclick = function() {
-        alert('Suppression du vin ID: ' + wineId + ' - Fonctionnalité à implémenter');
+        // Crée et soumets un formulaire POST vers la route de suppression
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = '/cave/' + wineId + '/delete';
+        form.innerHTML = `<input type="hidden" name="_token" value="${window.SymfonyCsrf['delete' + wineId]}">`;
+        document.body.appendChild(form);
+        form.submit();
         closeDeleteModal();
     };
+
     document.getElementById('deleteModal').style.display = 'flex';
 }
+
+// Rendre la fonction globale pour l'attribut onclick
+window.confirmDelete = confirmDelete;
 
 function closeDeleteModal() {
     document.getElementById('deleteModal').style.display = 'none';

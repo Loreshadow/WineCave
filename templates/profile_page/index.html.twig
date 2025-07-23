@@ -1,0 +1,53 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+<section class="profile-section">
+    <h2 class="profile-title">
+        <i class="fas fa-user"></i> Mon Profil
+    </h2>
+    <div class="profile-card">
+        <div class="profile-info">
+            <span class="profile-pseudo" style="color: {{ user.pseudoColor ?: '#7a133e' }}">
+                {{ user.username }}
+            </span>
+            <span class="profile-email">{{ user.email }}</span>
+        </div>
+        {{ form_start(form) }}
+            <div class="profile-form-row">
+                {{ form_row(form.username) }}
+            </div>
+            <div class="profile-form-row">
+                {{ form_row(form.caveName) }}
+            </div>
+            <div class="profile-form-row">
+                {{ form_row(form.pseudoColor) }}
+            </div>
+            <button class="btn btn-primary" type="submit">
+                <i class="fas fa-save"></i> Enregistrer
+            </button>
+        {{ form_end(form) }}
+        <div class="profile-preferences">
+            <h3 class="preferences-title"><i class="fas fa-cog"></i> Préférences utilisateur</h3>
+            <div class="preferences-content">
+            <form method="post" action="{{ path('user_preferences') }}">
+                <label>
+                    <input type="checkbox" name="public_cave" {% if user.cave and user.cave.visibility == 1 %}checked{% endif %}>
+                    Cave Publique
+                </label>
+                <label>
+                    <input type="checkbox" name="public_profile" {% if user.privacy == 1 %}checked{% endif %}>
+                    Profil public
+                </label>
+                <button class="btn btn-secondary" type="submit">
+                    <i class="fas fa-save"></i> Sauvegarder
+                </button>
+            </form>
+                {# option ici  #}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

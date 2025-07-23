@@ -1,0 +1,90 @@
+
+.site-footer {
+    background: linear-gradient(120deg, #7a133e 0%, #c73e1d 100%);
+    color: #fff;
+    padding: 2.5rem 0 1.2rem 0;
+    margin-top: 4rem;
+    border-radius: 32px 32px 0 0;
+    box-shadow: 0 -4px 24px rgba(122,19,62,0.07);
+
+    .footer-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+
+        i {
+            font-size: 2.2rem;
+            color: #fff;
+        }
+        .footer-title {
+            font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+            letter-spacing: 1px;
+        }
+    }
+
+    .footer-links {
+        display: flex;
+        gap: 2rem;
+        margin: 0.5rem 0 0.5rem 0;
+        a {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 2px;
+            &:hover {
+                color: #fbe6ee;
+                border-bottom: 2px solid #fff;
+            }
+        }
+    }
+
+    .footer-social {
+        display: flex;
+        gap: 1.2rem;
+        a {
+            color: #fff;
+            font-size: 1.4rem;
+            opacity: 0.8;
+            transition: opacity 0.2s, color 0.2s;
+            &:hover {
+                opacity: 1;
+                color: #fbe6ee;
+            }
+        }
+    }
+
+    .footer-copyright {
+        font-size: 0.95rem;
+        color: #fbe6ee;
+        margin-top: 0.7rem;
+        text-align: center;
+        opacity: 0.8;
+    }
+}
+
+// Responsive
+@media (max-width: 700px) {
+    .site-footer .footer-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .site-footer .footer-container {
+        padding: 0 1rem;
+    }
+}

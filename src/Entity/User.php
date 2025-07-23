@@ -65,8 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: BouteilleView::class, mappedBy: 'user')]
     private Collection $bouteilleViews;
 
-    #[ORM\OneToOne(targetEntity: Cave::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: 'cave_id', referencedColumnName: 'id', nullable: true)]
+    #[ORM\OneToOne(targetEntity: Cave::class, mappedBy: 'user', cascade: ['remove'])]
     private ?Cave $cave = null;
 
     public function __construct()
@@ -302,6 +301,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->cave = $cave;
 
+        return $this;
+    }
+
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    private int $privacy = 0;
+
+    public function getPrivacy(): int
+    {
+        return $this->privacy;
+    }
+
+    public function setPrivacy(int $privacy): self
+    {
+        $this->privacy = $privacy;
+        return $this;
+    }
+
+    #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    private ?string $pseudoColor = null;
+
+    public function getPseudoColor(): ?string
+    {
+        return $this->pseudoColor;
+    }
+
+    public function setPseudoColor(?string $pseudoColor): self
+    {
+        $this->pseudoColor = $pseudoColor;
         return $this;
     }
 
