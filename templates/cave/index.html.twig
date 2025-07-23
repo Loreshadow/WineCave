@@ -56,114 +56,109 @@
                 </button>
             </div>
             
-            <button class="add-wine-btn" onclick="alert('Fonction ajouter un vin - à implémenter')">
-                <i class="fas fa-plus"></i>
-                Ajouter un vin
-            </button>
+            <a href="{{ path('bouteille_new') }}" class="add-wine-btn"><i class="fas fa-plus"></i> Ajouter un vin</a>
         </div>
 
         {% if wines is defined and wines|length > 0 %}
             <div class="wine-grid" id="wineGrid">
                 {% for wine in wines %}
-                    <div class="wine-card" 
-                            data-color="{{ wine.color ? wine.color.name|lower : 'unknown' }}" 
-                            data-name="{{ wine.name|lower }}"
-                            data-id="{{ wine.id }}"
-                            data-image="{{ wine.image ? asset('uploads/bouteilles/' ~ wine.image) : '' }}"
-                            data-region="{{ wine.region ? wine.region.name : '' }}"
-                            data-ancien="{{ wine.ancien }}"
-                            data-color="{{ wine.color ? wine.color.name : '' }}"
-                            data-producteur="{{ wine.producteur ? wine.producteur.nom : '' }}"
-                            data-purchase-price="{{ wine.purchasePrice }}"
-                            data-degres="{{ wine.degres }}"
-                            data-gout="{{ wine.Gout }}">
-                                {% if wine.public == 0 %}
-                                    <form method="post" action="{{ path('bouteille_public_request', {id: wine.id}) }}" style="display:inline;">
-                                        <input type="hidden" name="_token" value="{{ csrf_token('public' ~ wine.id) }}">
-                                        <button class="action-btn public-btn" type="submit">
-                                            <i class="fas fa-globe"></i> Demander à rendre public
-                                        </button>
-                                    </form>
-                                {% elseif wine.public == 2 %}
-                                    <span class="badge badge-warning">En attente de validation</span>
-                                {% elseif wine.public == 1 %}
-                                    <span class="badge badge-success">Déjà publique</span>
-                                {% endif %}
-
-                        {% if wine.image %}
-                            <img src="{{ asset('uploads/bouteilles/' ~ wine.image) }}" alt="{{ wine.name }}" class="wine-image">
-                        {% else %}
-                            <div class="wine-image" style="background: linear-gradient(135deg, #8B0000, #DC143C); display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-wine-bottle" style="color: white; font-size: 24px;"></i>
-                            </div>
-                        {% endif %}
-                        
-                        <div class="wine-info">
-                            <h3 class="wine-name">{{ wine.name }}</h3>
-                            <div class="wine-details">
-                                {% if wine.region %}
-                                    <div class="detail-item">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        {{ wine.region.name }}
-                                    </div>
-                                {% endif %}
-                                
-                                {% if wine.ancien %}
-                                    <div class="detail-item">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        {{ wine.ancien }}
-                                    </div>
-                                {% endif %}
-                                
-                                {% if wine.color %}
-                                    <div class="detail-item">
-                                        <i class="fas fa-palette"></i>
-                                        {{ wine.color.name }}
-                                    </div>
-                                {% endif %}
-                                
-                                {% if wine.producteur %}
-                                    <div class="detail-item">
-                                        <i class="fas fa-industry"></i>
-                                        {{ wine.producteur.nom }}
-                                    </div>
-                                {% endif %}
-                                
-                                {% if wine.purchasePrice %}
-                                    <div class="detail-item">
-                                        <i class="fas fa-tag"></i>
-                                        {{ wine.purchasePrice }}€
-                                    </div>
-                                {% endif %}
-                                
-                                {% if wine.degres %}
-                                    <div class="detail-item">
-                                        <i class="fas fa-percentage"></i>
-                                        {{ wine.degres }}°
-                                    </div>
-                                {% endif %}
-                            </div>
-                            
-                            {% if wine.Gout %}
-                                <p class="wine-description">
-                                    {{ wine.Gout|length > 100 ? wine.Gout|slice(0, 100) ~ '...' : wine.Gout }}
-                                </p>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="wine-actions">
-                            <button class="action-btn view-btn" onclick="showWineDetail({{ wine.id }})">
-                                <i class="fas fa-eye"></i> Voir
-                            </button>
-                            <a class="action-btn edit-btn" href="{{ path('bouteille_edit', {id: wine.id}) }}">
-                                <i class="fas fa-edit"></i> Modifier
-                            </a>
-                                <form method="post" action="{{ path('bouteille_delete', {id: wine.id}) }}" style="display:inline;" onsubmit="return confirm('Supprimer définitivement cette bouteille ?');">
-                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ wine.id) }}">
-                                    <button class="action-btn delete-btn" type="submit">
-                                        <i class="fas fa-trash"></i> Supprimer
+                    <div class="wine-card"
+                        data-color="{{ wine.color ? wine.color.name|lower : 'unknown' }}"
+                        data-name="{{ wine.name|lower }}"
+                        data-id="{{ wine.id }}"
+                        data-image="{{ wine.image ? asset('uploads/images/' ~ wine.image) : '' }}"
+                        data-region="{{ wine.region ? wine.region.name : '' }}"
+                        data-ancien="{{ wine.ancien }}"
+                        data-color="{{ wine.color ? wine.color.name : '' }}"
+                        data-producteur="{{ wine.producteur ? wine.producteur.nom : '' }}"
+                        data-purchase-price="{{ wine.purchasePrice }}"
+                        data-degres="{{ wine.degres }}"
+                        data-gout="{{ wine.Gout }}"
+                    >
+                        <div class="wine-card-left">
+                            {% if wine.public == 0 %}
+                                <form method="post" action="{{ path('bouteille_public_request', {id: wine.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('public' ~ wine.id) }}">
+                                    <button class="action-btn public-btn" type="submit">
+                                        <i class="fas fa-globe"></i> Demander à rendre public
                                     </button>
                                 </form>
+                            {% elseif wine.public == 2 %}
+                                <span class="badge badge-warning">En attente de validation</span>
+                            {% elseif wine.public == 1 %}
+                                <span class="badge badge-success">Déjà publique</span>
+                            {% endif %}
+
+                            {% if wine.image %}
+                                <img src="{{ asset('uploads/images/' ~ wine.image) }}" alt="{{ wine.name }}" class="wine-image">
+                            {% else %}
+                                <div class="wine-image" style="background: linear-gradient(135deg, #8B0000, #DC143C); display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-wine-bottle" style="color: white; font-size: 24px;"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="wine-card-right">
+                            <div class="wine-info">
+                                <h3 class="wine-name">{{ wine.name }}</h3>
+                                <div class="wine-details">
+                                    {% if wine.region %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            {{ wine.region.name }}
+                                        </div>
+                                    {% endif %}
+                                    {% if wine.ancien %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            {{ wine.ancien }}
+                                        </div>
+                                    {% endif %}
+                                    {% if wine.color %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-palette"></i>
+                                            {{ wine.color.name }}
+                                        </div>
+                                    {% endif %}
+                                    {% if wine.producteur %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-industry"></i>
+                                            {{ wine.producteur.nom }}
+                                        </div>
+                                    {% endif %}
+                                    {% if wine.purchasePrice %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-tag"></i>
+                                            {{ wine.purchasePrice }}€
+                                        </div>
+                                    {% endif %}
+                                    {% if wine.degres %}
+                                        <div class="detail-item">
+                                            <i class="fas fa-percentage"></i>
+                                            {{ wine.degres }}°
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                {% if wine.Gout %}
+                                    <p class="wine-description">
+                                        {{ wine.Gout|length > 100 ? wine.Gout|slice(0, 100) ~ '...' : wine.Gout }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                            <div class="wine-actions">
+                                <button class="action-btn view-btn" onclick="showWineDetail({{ wine.id }})">
+                                    <i class="fas fa-eye"></i> Voir
+                                </button>
+                                <a class="action-btn edit-btn" href="{{ path('bouteille_edit', {id: wine.id}) }}">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                                    <button
+                                        class="action-btn delete-btn"
+                                        type="button"
+                                        onclick="confirmDelete({{ wine.id }}, '{{ wine.name|e('js') }}', {{ wine.public }})"
+                                    >
+                                        <i class="fas fa-trash"></i> Supprimer
+                                    </button>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
@@ -173,9 +168,7 @@
                 <i class="fas fa-wine-bottle"></i>
                 <h3>Votre cave est vide</h3>
                 <p>Commencez votre collection en ajoutant votre première bouteille !</p>
-                <button class="add-first-wine-btn" onclick="alert('Ajouter une première bouteille - à implémenter')">
-                    <i class="fas fa-plus"></i> Ajouter ma première bouteille
-                </button>
+                <a href="{{ path('bouteille_new') }}" class="add-first-wine-btn"> <i class="fas fa-plus"></i> Ajouter ma première bouteille</a>
             </div>
         {% endif %}
     </div>
@@ -188,7 +181,6 @@
         <p>Êtes-vous sûr de vouloir supprimer "<span id="wineName"></span>" de votre cave ?</p>
         <div class="modal-actions">
             <button class="btn btn-secondary" onclick="closeDeleteModal()">Annuler</button>
-            <button class="btn btn-danger" id="confirmDeleteBtn">Supprimer (à implémenter)</button>
         </div>
     </div>
 </div>

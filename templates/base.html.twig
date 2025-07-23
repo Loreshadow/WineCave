@@ -14,7 +14,7 @@
         <nav class="navbar">
             <div class="navbar-container">
                 <a class="navbar-brand" href="{{ path('app_home') }}">
-                    <span class="logo-text">my</span><span class="logo-emphasis">CAVE</span>
+                    <img src="{{ asset('img/logo-white.png') }}" alt="Logo de My Cave">
                 </a>
                 
                 <button class="navbar-toggle" type="button" data-toggle="navbar-menu">
@@ -34,6 +34,9 @@
                                 <a href="{{ path('public_countries') }}" class="dropdown-item">Découvrez les vins par pays</a>
                                 <a href="{{ path('public_wines') }}" class="dropdown-item">Consulter la liste de tous les vins</a>
                             </div>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ path('all_caves') }}" class="nav-link">Voir toutes les caves</a>
                         </li>
                         {% if app.user %}
                             <li class="nav-item">

@@ -21,7 +21,7 @@
                 {% for wine in bouteilles %}
                     <div class="wine-card">
                         {% if wine.image %}
-                            <img src="{{ asset('uploads/bouteilles/' ~ wine.image) }}" alt="{{ wine.name }}" class="wine-image">
+                            <img src="{{ asset('uploads/images/' ~ wine.image) }}" alt="{{ wine.name }}" class="wine-image">
                         {% else %}
                             <div class="wine-image" style="background: linear-gradient(135deg, #8B0000, #DC143C); display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-wine-bottle" style="color: white; font-size: 24px;"></i>
@@ -71,6 +71,19 @@
                                 <p class="wine-description">
                                     {{ wine.Gout|length > 100 ? wine.Gout|slice(0, 100) ~ '...' : wine.Gout }}
                                 </p>
+                            {% endif %}
+                        </div>
+                        <div class="wine-actions">
+                            <a class="action-btn view-btn" href="{{ path('bouteille_show', {id: wine.id}) }}">
+                                <i class="fas fa-eye"></i> Voir
+                            </a>
+                            {% if app.user %}
+                                <form method="post" action="{{ path('bouteille_add_to_cave', {id: wine.id}) }}" style="display:inline;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('add_to_cave' ~ wine.id) }}">
+                                    <button class="action-btn add-btn" type="submit">
+                                        <i class="fas fa-plus"></i> Ajouter à ma cave
+                                    </button>
+                                </form>
                             {% endif %}
                         </div>
                     </div>

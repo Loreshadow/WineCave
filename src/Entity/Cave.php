@@ -36,9 +36,16 @@ class Cave
     #[ORM\OneToMany(targetEntity: Bouteille::class, mappedBy: 'cave')]
     private Collection $bottles;
 
+    /**
+     * @var Collection<int, CaveBouteille>
+     */
+    #[ORM\OneToMany(targetEntity: CaveBouteille::class, mappedBy: 'cave')]
+    private Collection $caveBouteilles;
+
     public function __construct()
     {
         $this->bottles = new ArrayCollection();
+        $this->caveBouteilles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -130,6 +137,36 @@ class Cave
             // set the owning side to null (unless already changed)
             if ($bottle->getCave() === $this) {
                 $bottle->setCave(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CaveBouteille>
+     */
+    public function getCaveBouteilles(): Collection
+    {
+        return $this->caveBouteilles;
+    }
+
+    public function addCaveBouteille(CaveBouteille $caveBouteille): static
+    {
+        if (!$this->caveBouteilles->contains($caveBouteille)) {
+            $this->caveBouteilles->add($caveBouteille);
+            $caveBouteille->setCave($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCaveBouteille(CaveBouteille $caveBouteille): static
+    {
+        if ($this->caveBouteilles->removeElement($caveBouteille)) {
+            // set the owning side to null (unless already changed)
+            if ($caveBouteille->getCave() === $this) {
+                $caveBouteille->setCave(null);
             }
         }
 

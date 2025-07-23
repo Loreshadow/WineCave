@@ -59,11 +59,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Bouteille::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $bouteilles;
 
+    /**
+     * @var Collection<int, BouteilleView>
+     */
+    #[ORM\OneToMany(targetEntity: BouteilleView::class, mappedBy: 'user')]
+    private Collection $bouteilleViews;
+
+    #[ORM\OneToOne(targetEntity: Cave::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'cave_id', referencedColumnName: 'id', nullable: true)]
+    private ?Cave $cave = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
         $this->bouteilles = new ArrayCollection();
+        $this->bouteilleViews = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -251,4 +262,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, BouteilleView>
+     */
+    public function getBouteilleViews(): Collection
+    {
+        return $this->bouteilleViews;
+    }
+
+    public function addBouteilleView(BouteilleView $bouteilleView): static
+    {
+        if (!$this->bouteilleViews->contains($bouteilleView)) {
+            $this->bouteilleViews->add($bouteilleView);
+            $bouteilleView->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBouteilleView(BouteilleView $bouteilleView): static
+    {
+        if ($this->bouteilleViews->removeElement($bouteilleView)) {
+            // set the owning side to null (unless already changed)
+            if ($bouteilleView->getUser() === $this) {
+                $bouteilleView->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCave(): ?Cave
+    {
+        return $this->cave;
+    }
+
+    public function setCave(Cave $cave): static
+    {
+        $this->cave = $cave;
+
+        return $this;
+    }
+
+
 }

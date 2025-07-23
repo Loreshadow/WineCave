@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ bouteille.name }} - Détail{% endblock %}
+{% block body %}
+<div class="cave-container-detailpage">
+    <div class="cave-header-detailpage">
+        <div class="container-detailpage">
+            <h1 class="cave-title-detailpage">
+                <i class="fas fa-wine-bottle"></i>
+                {{ bouteille.name }}
+            </h1>
+        </div>
+    </div>
+    <div class="cave-content-detailpage">
+        <div class="wine-detail-card-detailpage">
+            {% if bouteille.image %}
+                <img src="{{ asset('uploads/images/' ~ bouteille.image) }}" alt="{{ bouteille.name }}" class="wine-image-detailpage">
+            {% endif %}
+            <div class="wine-info-detailpage">
+                <h3>{{ bouteille.name }}</h3>
+                <ul>
+                    {% if bouteille.region %}
+                        <li><strong>Région :</strong> {{ bouteille.region.name }}</li>
+                    {% endif %}
+                    {% if bouteille.color %}
+                        <li><strong>Couleur :</strong> {{ bouteille.color.name }}</li>
+                    {% endif %}
+                    {% if bouteille.purchasePrice %}
+                        <li><strong>Prix d'achat :</strong> {{ bouteille.purchasePrice }} €</li>
+                    {% endif %}
+                    {% if bouteille.degres %}
+                        <li><strong>Degrés :</strong> {{ bouteille.degres }}°</li>
+                    {% endif %}
+                    {% if bouteille.Gout %}
+                        <li><strong>Gout :</strong> {{ bouteille.Gout }}</li>
+                    {% endif %}
+                    <li><strong>Vues :</strong> {{ bouteille.views }}</li>
+                </ul>
+            </div>
+        </div>
+        <a href="{{ app.request.headers.get('referer') ?: path('public_wines') }}" class="btn btn-secondary mt-3">← Retour</a>
+    </div>
+</div>
+{% endblock %}

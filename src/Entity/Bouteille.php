@@ -2,13 +2,21 @@
 
 namespace App\Entity;
 
-use App\Repository\BouteilleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Note;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use App\Entity\Favoris;
+use App\Entity\Wishlist;
+use App\Entity\BouteilleView;
 use Doctrine\DBAL\Types\Types;
+use App\Entity\HistoriqueStock;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BouteilleRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
 #[ORM\Entity(repositoryClass: BouteilleRepository::class)]
+#[Vich\Uploadable]
 class Bouteille
 {
     #[ORM\Id]
@@ -93,13 +101,53 @@ class Bouteille
     #[ORM\JoinColumn(nullable: True)]
     private ?Pays $pays = null;
 
-    public function __construct()
-    {
-        $this->historiqueStocks = new ArrayCollection();
-        $this->favoris = new ArrayCollection();
-        $this->wishlists = new ArrayCollection();
-        $this->notes = new ArrayCollection();
+    #[ORM\Column(nullable: true)]
+    private ?int $views = null;
+
+    /**
+     * @var Collection<int, BouteilleView>
+     */
+    #[ORM\OneToMany(targetEntity: BouteilleView::class, mappedBy: 'bouteille')]
+    private Collection $bouteilleViews;
+
+public function __construct()
+{
+    $this->historiqueStocks = new ArrayCollection();
+    $this->favoris = new ArrayCollection();
+    $this->wishlists = new ArrayCollection();
+    $this->notes = new ArrayCollection();
+    $this->bouteilleViews = new ArrayCollection();
+    $this->caveBouteilles = new ArrayCollection();
+}
+
+// VichUploader fields
+#[UploadableField(mapping: 'images', fileNameProperty: 'image')]
+private ?\Symfony\Component\HttpFoundation\File\File $imageFile = null;
+
+#[ORM\Column(length: 255, nullable: true)]
+private ?string $grapes = null;
+
+/**
+ * @var Collection<int, CaveBouteille>
+ */
+#[ORM\OneToMany(targetEntity: CaveBouteille::class, mappedBy: 'bouteille')]
+private Collection $caveBouteilles;
+
+// The $image property is already declared above, so do not redeclare it
+
+// VichUploader methods
+public function setImageFile(?\Symfony\Component\HttpFoundation\File\File $imageFile = null): void
+{
+    $this->imageFile = $imageFile;
+    if ($imageFile) {
+        $this->setUpdatedAt(new \DateTime());
     }
+}
+
+public function getImageFile(): ?\Symfony\Component\HttpFoundation\File\File
+{
+    return $this->imageFile;
+}
 
     public function getId(): ?int
     {
@@ -429,4 +477,89 @@ class Bouteille
 
         return $this;
     }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(?int $views): static
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BouteilleView>
+     */
+    public function getBouteilleViews(): Collection
+    {
+        return $this->bouteilleViews;
+    }
+
+    public function addBouteilleView(BouteilleView $bouteilleView): static
+    {
+        if (!$this->bouteilleViews->contains($bouteilleView)) {
+            $this->bouteilleViews->add($bouteilleView);
+            $bouteilleView->setBouteille($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBouteilleView(BouteilleView $bouteilleView): static
+    {
+        if ($this->bouteilleViews->removeElement($bouteilleView)) {
+            // set the owning side to null (unless already changed)
+            if ($bouteilleView->getBouteille() === $this) {
+                $bouteilleView->setBouteille(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getGrapes(): ?string
+    {
+        return $this->grapes;
+    }
+
+    public function setGrapes(?string $grapes): static
+    {
+        $this->grapes = $grapes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CaveBouteille>
+     */
+    public function getCaveBouteilles(): Collection
+    {
+        return $this->caveBouteilles;
+    }
+
+    public function addCaveBouteille(CaveBouteille $caveBouteille): static
+    {
+        if (!$this->caveBouteilles->contains($caveBouteille)) {
+            $this->caveBouteilles->add($caveBouteille);
+            $caveBouteille->setBouteille($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCaveBouteille(CaveBouteille $caveBouteille): static
+    {
+        if ($this->caveBouteilles->removeElement($caveBouteille)) {
+            // set the owning side to null (unless already changed)
+            if ($caveBouteille->getBouteille() === $this) {
+                $caveBouteille->setBouteille(null);
+            }
+        }
+
+        return $this;
+    }
+    
 }

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cave de {{ cave.user ? cave.user.getFullName() : 'Utilisateur inconnu' }}{% endblock %}
+
+{% block body %}
+<div class="cave-container">
+    <div class="cave-header">
+        <div class="container">
+            <h1 class="cave-title">
+                <i class="fas fa-warehouse"></i>
+                Cave de {{ cave.user ? cave.user.getFullName() : 'Utilisateur inconnu' }}
+            </h1>
+            <p class="cave-subtitle">
+                Collection publique de cette cave.
+            </p>
+        </div>
+    </div>
+    <div class="cave-content">
+        {% if caveBouteilles|length > 0 %}
+            <div class="wine-grid">
+                {% for cb in caveBouteilles %}
+                    {% set wine = cb.bouteille %}
+                    <div class="wine-card">
+                        <div class="wine-info">
+                            <h3 class="wine-name">{{ wine.name }}</h3>
+                            <div class="wine-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    {{ wine.region ? wine.region.name : 'Région inconnue' }}
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-tint"></i>
+                                    {{ wine.color ? wine.color.name : 'Couleur inconnue' }}
+                                </div>
+                            </div>
+                            <a class="action-btn view-btn" href="{{ path('bouteille_show', {id: wine.id}) }}">
+                                <i class="fas fa-eye"></i> Voir le vin
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-cave">
+                <i class="fas fa-wine-bottle"></i>
+                <h3>Aucune bouteille publique dans cette cave</h3>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

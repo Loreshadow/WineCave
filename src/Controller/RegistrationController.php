@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Cave;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -31,6 +32,16 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            
+            $cave = new Cave();
+            $cave->setName('Cave de ' . $user->getEmail()); 
+            $cave->setVisibility(1);
+            $cave->setCreatedAt(new \DateTime());
+            $cave->setUser($user);
+            $user->setCave($cave);
+            $entityManager->persist($cave);
+            $entityManager->persist($user);
+            $entityManager->flush();
             $user->setRoles(['ROLE_USER']);
 
             $entityManager->persist($user);

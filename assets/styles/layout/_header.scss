@@ -173,6 +173,16 @@
         }
     }
 
+    .navbar-brand img {
+    height: auto;
+    width: auto;
+    max-width: 160px;
+    transition: scale 0.3s ease;
+    }
+    .navbar-brand img:hover {
+        scale: 1.05;
+    }
+
     // Responsive
     @media (max-width: $tablet) {
         .navbar-toggle {

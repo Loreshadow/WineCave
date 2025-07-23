@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Toutes les caves - My Cave{% endblock %}
+
+{% block body %}
+<div class="cave-container">
+    <div class="cave-header">
+        <div class="container">
+            <h1 class="cave-title">
+                <i class="fas fa-warehouse"></i>
+                Toutes les caves utilisateurs
+            </h1>
+            <p class="cave-subtitle">
+                Découvrez les caves de la communauté et explorez leurs collections publiques.
+            </p>
+        </div>
+    </div>
+    <div class="cave-content">
+        {% if caves|length > 0 %}
+            <div class="wine-grid">
+                {% for cave in caves %}
+                    <div class="wine-card">
+                        <div class="wine-info">
+                            <h3 class="wine-name">
+                                <i class="fas fa-user"></i>
+                                {{ cave.user ? cave.user.getFullName() : 'Utilisateur inconnu' }}
+                            </h3>
+                            <div class="wine-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-id-badge"></i>
+                                    {{ cave.name }}
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    Créée le {{ cave.createdAt ? cave.createdAt|date('d/m/Y') : 'N/A' }}
+                                </div>
+                            </div>
+                            <a class="action-btn view-btn" href="{{ path('cave_show', {id: cave.id}) }}">
+                                <i class="fas fa-eye"></i> Voir la cave
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-cave">
+                <i class="fas fa-warehouse"></i>
+                <h3>Aucune cave trouvée</h3>
+                <p>La communauté n'a pas encore créé de caves.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

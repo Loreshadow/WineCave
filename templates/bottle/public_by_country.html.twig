@@ -16,7 +16,7 @@
                 {% for wine in bouteilles %}
                     <div class="wine-card">
                         {% if wine.image %}
-                            <img src="{{ asset('uploads/bouteilles/' ~ wine.image) }}" alt="{{ wine.name }}" class="wine-image">
+                            <img src="{{ asset('uploads/images/' ~ wine.image) }}" alt="{{ wine.name }}" class="wine-image">
                         {% else %}
                             <div class="wine-image" style="background: linear-gradient(135deg, #8B0000, #DC143C); display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-wine-bottle" style="color: white; font-size: 24px;"></i>

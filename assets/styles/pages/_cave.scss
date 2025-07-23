@@ -390,29 +390,28 @@
     color: #555;
 }
 
+
 .action-btn.public-btn {
-    background: #9df4b6;
-    color: #218838;
-    border: 1px solid #b7e4c7;
-    border-radius: 5px;
-    padding: 0.35rem 0.8rem;
-    font-size: 12px;
-    font-weight: 500;
+    background: linear-gradient(135deg, #3ecf8e 0%, #38a169 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s, border 0.2s;
-    display: inline-flex;
+    transition: background 0.2s, transform 0.2s;
+    display: flex;
     align-items: center;
-    gap: 0.3rem;
-    box-shadow: none;
+    gap: 0.4rem;
 
     i {
-        font-size: 13px;
+        font-size: 15px;
     }
 
     &:hover {
-        background: #b7e4c7;
-        color: #155724;
-        border-color: #95d5b2;
+        background: linear-gradient(135deg, #38a169 0%, #3ecf8e 100%);
+        transform: translateY(-2px) scale(1.04);
     }
 }
 
